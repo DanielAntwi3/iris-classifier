@@ -40,17 +40,11 @@ print("k-NN accuracy:", accuracy_score(y_test, y_pred2))    # Calculate and prin
 model = DecisionTreeClassifier(max_depth=3, random_state=42)    # Create a Decision Tree Classifier model with a maximum depth of 3 (Hyperparameter)
 model.fit(X_train, y_train)                                     # Train the model on the training data
 
+
+## Step 5: Generate and Save Confusion Matrix
 import os
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-
-# Define the absolute path to the 'outputs' folder, relative to this file or notebook
-import os
-
-project_root = os.path.abspath(os.path.join(os.getcwd(), "outputs"))
-output_dir = project_root
-os.makedirs(output_dir, exist_ok=True)
-
 
 # Create predictions using the final model
 y_pred = model.predict(X_test)
@@ -59,23 +53,9 @@ y_pred = model.predict(X_test)
 cm = confusion_matrix(y_test, y_pred, labels=model.classes_)  # Compute confusion matrix
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=iris.target_names)  # Create display object
 
-import os
-
-# Support both .py files and Jupyter notebooks
-try:
-    # Works when running from a script
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-except NameError:
-    # Fallback for Jupyter notebooks
-    current_dir = os.getcwd()
-
-# Go up one level to reach the actual project folder
-project_dir = os.path.join(current_dir, "iris-classifier") if "notebooks" in current_dir else current_dir
-
-# Always target the outputs directory inside iris-classifier/iris-classifier
-output_dir = os.path.join(project_dir, "outputs")
+# Create output directory if it doesn't exist
+output_dir = r"C:\Users\Administrator\OneDrive\Documents\GitHub\iris-classifier\iris-classifier\outputs"
 os.makedirs(output_dir, exist_ok=True)
-
 
 # Plot and save confusion matrix
 fig, ax = plt.subplots(figsize=(6, 6))
@@ -84,31 +64,22 @@ plt.title("Confusion Matrix - Decision Tree")
 plt.savefig(os.path.join(output_dir, "confusion_matrix.png"))
 plt.close()
 
-# Step 6: Save the trained model to outputs/trained_model_x.pkl
-import joblib
 
+# Step 6: Save the trained model to outputs/trained_model_x.pkl
+
+import joblib
 import os
 
-# Support both .py files and Jupyter notebooks
-try:
-    # Works when running from a script
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-except NameError:
-    # Fallback for Jupyter notebooks
-    current_dir = os.getcwd()
 
-# Go up one level to reach the actual project folder
-project_dir = os.path.join(current_dir, "iris-classifier") if "notebooks" in current_dir else current_dir
-
-# Always target the outputs directory inside iris-classifier/iris-classifier
-output_dir = os.path.join(project_dir, "outputs")
+# Create output directory if it doesn't exist
+output_dir = r"C:\Users\Administrator\OneDrive\Documents\GitHub\iris-classifier\iris-classifier\outputs"
 os.makedirs(output_dir, exist_ok=True)
 
- # Ensure the folder exists
 
 # Define the correct model path
-model_path = os.path.join("..", "outputs", "trained_model_x.pkl")
+model_path = os.path.join(output_dir, "trained_model_x.pkl")
 
 # Save the trained Decision Tree model
 joblib.dump(model, model_path)
 print(f"Model saved to {model_path}")
+
